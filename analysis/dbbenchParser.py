@@ -50,13 +50,13 @@ def parseReadWrite(filename, isRead):
 
     data = []
     data.append(stats)
-    data.extend(histo(line, lines))
+    data.extend(parseHistogram(line, lines))
 
     return data
 
 
 
-def histo(line, lines):
+def parseHistogram(line, lines):
     data = []
     values = []
     percents = []
