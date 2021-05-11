@@ -1,7 +1,7 @@
 #!/bin/bash
 
-chmod -R +xwr rocksdb-6.20.3
-cd rocksdb-6.20.3
+chmod -R +xwr rocksdb
+cd rocksdb
 make clean
 make DEBUG_LEVEL=0 -j4 db_bench
 
