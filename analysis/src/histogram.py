@@ -3,7 +3,7 @@ import numpy as np
 import dbbenchParser as parser
 import copy
 
-def histogramPlot(filename, type, workload, compactionPolicy):
+def histogramPlot(filename, type):
     data = parser.parseReadWrite(filename, True)
     x = copy.copy(data[1])
     x.pop(len(data[2]))
@@ -25,6 +25,10 @@ def histogramPlot(filename, type, workload, compactionPolicy):
 def test():
 	histogramPlot("dbbenchResults/result.txt", "read", "Write_Heavy", "leveled")
 
+def main():
+    histogramPlot("dbbenchResults/ReadHeavyLeveled.txt", read)
+    histogramPlot("dbbenchResults/ReadHeavyTiered.txt", read)
+
 if __name__ == "__main__":
-	test()
+	main()
     
