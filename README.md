@@ -9,3 +9,6 @@ First make sure python with matplotlib and C++ are installed. Check documentatio
 
 #### RocksDB:
 RocksDB v6.20.3 https://github.com/facebook/rocksdb/releases/tag/v6.20.3 was used and modified for this project.
+
+## Running
+The run.sh file might not work on a Windows OS, I recommand running the command one by one to obtain the same results
