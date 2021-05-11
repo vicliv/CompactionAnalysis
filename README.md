@@ -8,4 +8,4 @@ You will need to install the following ressources to be able to run replicate th
 First make sure python with matplotlib and C++ are installed. Check documentation if needed
 
 #### RocksDB:
-Follow the installation process here : https://github.com/facebook/rocksdb/blob/master/INSTALL.md
+RocksDB v6.20.3 https://github.com/facebook/rocksdb/releases/tag/v6.20.3 was used and modified for this project.
