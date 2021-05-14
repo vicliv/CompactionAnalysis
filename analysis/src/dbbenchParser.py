@@ -26,15 +26,9 @@ def parseStats(filename):
 
 # parse the time values of read or write given
 # if isRead = True we parse for read, otherwise for write
-def parseReadWrite(filename, isRead):
-    f = open(filename, 'r')
-    lines = f.readlines()
-
+def parseHistoStats(lines, line):
     stats = []
-    line = 19
-    if (not isRead): # go for write line
-        while(not lines[line] == '\n'):
-            line += 1
+    line -= 3
 
     for i in range(0, 3):
         s = lines[line].split(':')
@@ -57,6 +51,7 @@ def parseReadWrite(filename, isRead):
 
 
 def parseHistogram(line, lines):
+    line += 1
     data = []
     values = []
     percents = []
@@ -64,7 +59,7 @@ def parseHistogram(line, lines):
     i = 0
     while(lines[line] != '\n'):
         rangeNumbers = lines[line].split(',')
-        if i==0:
+        if rangeNumbers[0][0] == '[':
             lowerBound = int(rangeNumbers[0].replace('[', ' ').lstrip())
         else:
             lowerBound = int(rangeNumbers[0].replace('(', ' ').lstrip())
@@ -79,3 +74,12 @@ def parseHistogram(line, lines):
         line += 1
     data.append(int(lines[line-1].split(',')[1].split(']')[0].replace(']', ' ').strip()))
     return [data, values, percents]
+
+
+def findHistogram(lines):
+    pos = []
+    k = 0
+    for i in range(0, len(lines)):
+        if lines[i][0::8] == '-------':
+            pos.append(i)
+    return pos
