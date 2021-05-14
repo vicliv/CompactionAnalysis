@@ -4,8 +4,10 @@ import dbbenchParser as parser
 import copy
 
 colors = {0 : 'b', 1 : 'r', 2 : 'g', 3 : 'c', 4: 'm', 5 : 'y', 6 : 'k', 7: 'w'}
+xlabel = "Time distribution in microseconds per operation"
+ylabel = "Log of number of operations per distribution"
 
-def histogramPlot(filename):
+def plotType(filename):
     f = open(filename, 'r')
     lines = f.readlines()
     f.close()
@@ -14,32 +16,46 @@ def histogramPlot(filename):
 
     pos =  parser.findHistogram(lines)
 
-    for i in range(0, 2):
-        data = parser.parseHistogram(pos[i], lines)
-
-        x = copy.copy(data[0])
-        x.pop(len(data[1]))
-
-        if (i==0):
-            l = "Reads"
-        elif (i==1):
-            l = "Writes"
-
-        plt.hist(x, bins=data[0], weights=data[1], log=True, color=colors[i%8], label=l, alpha = 0.5)
-
-    title = "Histogram of a " + name + " database with\n read/writes time in microseconds"
-    plt.title(title)
-    plt.legend()
-
-    xlabel = "Time distribution in microseconds per operation"
-    plt.xlabel(xlabel)
-    ylabel = "Log of number of operations per distribution"
-    plt.ylabel(ylabel)
-
-    outputFilename = "analysis/plots/" + name + ".jpeg"
+    plotRead(pos, lines, name, colors[0], "")
+    outputFilename = "analysis/plots/" + name + "Reads.jpeg"
     plt.savefig(outputFilename)
     plt.clf()
 
+    plotWrite(pos, lines, name, colors[0], "")
+    outputFilename = "analysis/plots/" + name + "Writes.jpeg"
+    plt.savefig(outputFilename)
+    plt.clf()
+
+    plotLevels(pos, lines, name)
+    outputFilename = "analysis/plots/" + name + "Levels.jpeg"
+    plt.savefig(outputFilename)
+    plt.clf()
+
+def plotWorkload(filename1, filename2, workload):
+    f1 = open(filename1, 'r')
+    lines1 = f1.readlines()
+    f1.close()
+
+    f2 = open(filename2, 'r')
+    lines2 = f2.readlines()
+    f2.close()
+
+    pos1 =  parser.findHistogram(lines1)
+    pos2 =  parser.findHistogram(lines2)
+
+    plotRead(pos1, lines1, workload, colors[0], "Leveled")
+    plotRead(pos2, lines2, workload, colors[1], "Tiered")
+    outputFilename = "analysis/plots/" + workload + "ReadsComparison.jpeg"
+    plt.savefig(outputFilename)
+    plt.clf()
+
+    plotWrite(pos1, lines1, workload, colors[0], "Leveled")
+    plotWrite(pos2, lines2, workload, colors[1], "Tiered")
+    outputFilename = "analysis/plots/" + workload + "WritesComparison.jpeg"
+    plt.savefig(outputFilename)
+    plt.clf()
+
+def plotLevels(pos, lines, name):
     for i in range(2, len(pos)):
         data = parser.parseHistogram(pos[i], lines)
 
@@ -54,22 +70,54 @@ def histogramPlot(filename):
     plt.title(title)
     plt.legend()
 
-    xlabel = "Time distribution in microseconds per operation"
     plt.xlabel(xlabel)
-    ylabel = "Log of number of operations per distribution"
     plt.ylabel(ylabel)
 
-    outputFilename = "analysis/plots/" + name + "Levels.jpeg"
-    plt.savefig(outputFilename)
-    plt.clf()
+def plotRead(pos, lines, name, color, l):
+    data = parser.parseHistogram(pos[0], lines)
+
+    x = copy.copy(data[0])
+    x.pop(len(data[1]))
+
+    plt.hist(x, bins=data[0], weights=data[1], label=l, log=True, color=color, alpha = 0.5)
+
+    title = "Histogram of a " + name + " database with\n reads time in microseconds"
+    plt.title(title)
+    
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+
+    if (l != ""):
+        plt.legend()
+
+def plotWrite(pos, lines, name, color, l):
+    data = parser.parseHistogram(pos[1], lines)
+
+    x = copy.copy(data[0])
+    x.pop(len(data[1]))
+
+    plt.hist(x, bins=data[0], weights=data[1], label=l, log=True, color=color, alpha = 0.5)
+
+    title = "Histogram of a " + name + " database with\n writes time in microseconds"
+    plt.title(title)
+
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    if (l != ""):
+        plt.legend()
 
 def main():
-    histogramPlot("analysis/dbbenchResults/ReadHeavyLeveled.txt")
-    histogramPlot("analysis/dbbenchResults/ReadHeavyTiered.txt")
-    histogramPlot("analysis/dbbenchResults/WriteHeavyLeveled.txt")
-    histogramPlot("analysis/dbbenchResults/WriteHeavyTiered.txt")
-    histogramPlot("analysis/dbbenchResults/1%Leveled.txt")
-    histogramPlot("analysis/dbbenchResults/1%Tiered.txt")
+    plotType("analysis/dbbenchResults/ReadHeavyLeveled.txt")
+    plotType("analysis/dbbenchResults/ReadHeavyTiered.txt")
+    plotType("analysis/dbbenchResults/WriteHeavyLeveled.txt")
+    plotType("analysis/dbbenchResults/WriteHeavyTiered.txt")
+    plotType("analysis/dbbenchResults/1%Leveled.txt")
+    plotType("analysis/dbbenchResults/1%Tiered.txt")
+
+    plotWorkload("analysis/dbbenchResults/ReadHeavyLeveled.txt", "analysis/dbbenchResults/ReadHeavyTiered.txt", "ReadHeavy")
+    plotWorkload("analysis/dbbenchResults/WriteHeavyLeveled.txt", "analysis/dbbenchResults/WriteHeavyTiered.txt", "WriteHeavy")
+    plotWorkload("analysis/dbbenchResults/1%Leveled.txt", "analysis/dbbenchResults/1%Tiered.txt", "1%")
+
 
 if __name__ == "__main__":
 	main()
