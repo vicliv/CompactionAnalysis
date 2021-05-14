@@ -42,11 +42,7 @@ def parseHistoStats(lines, line):
         line += 1
     line += 1
 
-    data = []
-    data.append(stats)
-    data.extend(parseHistogram(line, lines))
-
-    return data
+    return stats
 
 
 
