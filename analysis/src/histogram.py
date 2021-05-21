@@ -17,17 +17,17 @@ def plotType(filename):
     pos =  parser.findHistogram(lines)
 
     plotRead(pos, lines, name, colors[0], "")
-    outputFilename = "analysis/plots/" + name + "Reads.jpeg"
+    outputFilename = "analysis/plots/" + name + "Reads.png"
     plt.savefig(outputFilename)
     plt.clf()
 
     plotWrite(pos, lines, name, colors[0], "")
-    outputFilename = "analysis/plots/" + name + "Writes.jpeg"
+    outputFilename = "analysis/plots/" + name + "Writes.png"
     plt.savefig(outputFilename)
     plt.clf()
 
     plotLevels(pos, lines, name)
-    outputFilename = "analysis/plots/" + name + "Levels.jpeg"
+    outputFilename = "analysis/plots/" + name + "Levelspng"
     plt.savefig(outputFilename)
     plt.clf()
 
@@ -45,13 +45,13 @@ def plotWorkload(filename1, filename2, workload):
 
     plotRead(pos1, lines1, workload, colors[0], "Leveled")
     plotRead(pos2, lines2, workload, colors[1], "Tiered")
-    outputFilename = "analysis/plots/" + workload + "ReadsComparison.jpeg"
+    outputFilename = "analysis/plots/long/" + workload + "ReadsComparison.png"
     plt.savefig(outputFilename)
     plt.clf()
 
     plotWrite(pos1, lines1, workload, colors[0], "Leveled")
     plotWrite(pos2, lines2, workload, colors[1], "Tiered")
-    outputFilename = "analysis/plots/" + workload + "WritesComparison.jpeg"
+    outputFilename = "analysis/plots/long/" + workload + "WritesComparison.png"
     plt.savefig(outputFilename)
     plt.clf()
 
@@ -97,7 +97,7 @@ def plotWrite(pos, lines, name, color, l):
     x.pop(len(data[1]))
 
     plt.hist(x, bins=data[0], weights=data[1], label=l, log=True, color=color, alpha = 0.5)
-
+ 
     title = "Histogram of a " + name + " database with\n writes time in microseconds"
     plt.title(title)
 
@@ -107,16 +107,8 @@ def plotWrite(pos, lines, name, color, l):
         plt.legend()
 
 def main():
-    plotType("analysis/dbbenchResults/ReadHeavyLeveled.txt")
-    plotType("analysis/dbbenchResults/ReadHeavyTiered.txt")
-    plotType("analysis/dbbenchResults/WriteHeavyLeveled.txt")
-    plotType("analysis/dbbenchResults/WriteHeavyTiered.txt")
-    plotType("analysis/dbbenchResults/1%Leveled.txt")
-    plotType("analysis/dbbenchResults/1%Tiered.txt")
-
-    plotWorkload("analysis/dbbenchResults/ReadHeavyLeveled.txt", "analysis/dbbenchResults/ReadHeavyTiered.txt", "ReadHeavy")
-    plotWorkload("analysis/dbbenchResults/WriteHeavyLeveled.txt", "analysis/dbbenchResults/WriteHeavyTiered.txt", "WriteHeavy")
-    plotWorkload("analysis/dbbenchResults/1%Leveled.txt", "analysis/dbbenchResults/1%Tiered.txt", "1%")
+    plotWorkload("analysis/dbbenchResults/long/ReadHeavyLeveled.txt", "analysis/dbbenchResults/long/ReadHeavyTiered.txt", "ReadHeavy")
+    plotWorkload("analysis/dbbenchResults/long/WriteHeavyLeveled13.txt", "analysis/dbbenchResults/long/WriteHeavyTiered13.txt", "WriteHeavy")
 
 
 if __name__ == "__main__":
