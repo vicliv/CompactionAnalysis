@@ -1969,6 +1969,8 @@ class Stats {
   uint64_t last_report_finish_;
   std::unordered_map<OperationType, std::shared_ptr<HistogramImpl>,
                      std::hash<unsigned char>> hist_;
+  std::unordered_map<OperationType, std::shared_ptr<HistogramImpl>,
+                     std::hash<unsigned char>> hist_2;
   std::string message_;
   bool exclude_from_merge_;
   ReporterAgent* reporter_agent_;  // does not own
@@ -1986,6 +1988,7 @@ class Stats {
     next_report_ = FLAGS_stats_interval ? FLAGS_stats_interval : 100;
     last_op_finish_ = start_;
     hist_.clear();
+    hist_2.clear();
     done_ = 0;
     last_report_done_ = 0;
     bytes_ = 0;
@@ -2009,6 +2012,15 @@ class Stats {
         this_it->second->Merge(*(other.hist_.at(it->first)));
       } else {
         hist_.insert({ it->first, it->second });
+      }
+    }
+
+    for (auto it = other.hist_2.begin(); it != other.hist_2.end(); ++it) {
+      auto this_it = hist_2.find(it->first);
+      if (this_it != hist_2.end()) {
+        this_it->second->Merge(*(other.hist_2.at(it->first)));
+      } else {
+        hist_2.insert({ it->first, it->second });
       }
     }
 
@@ -2095,6 +2107,13 @@ class Stats {
       }
       hist_[op_type]->Add(micros);
 
+      if (hist_2.find(op_type) == hist_2.end())
+      {
+        auto hist_2temp = std::make_shared<HistogramImpl>();
+        hist_2.insert({op_type, std::move(hist_2temp)});
+      }
+      hist_2[op_type]->Add(micros);
+
       if (micros > 20000 && !FLAGS_stats_interval) {
         fprintf(stderr, "long op: %" PRIu64 " micros%30s\r", micros, "");
         fflush(stderr);
@@ -2126,6 +2145,18 @@ class Stats {
           next_report_ += FLAGS_stats_interval;
 
         } else {
+
+          for (auto it = hist_2.begin(); it != hist_2.end(); ++it) {
+            fprintf(stderr, "Microseconds per %s:\n%s\n",
+                OperationTypeString[it->first].c_str(),
+                it->second->ToString().c_str());
+          }
+          hist_2.clear();
+
+          const auto& t = ROCKSDB_NAMESPACE::TickersNameMap.at(82);
+          fprintf(stderr, "%s COUNT : %" PRIu64 "\n",
+             t.second.c_str(), dbstats->getTickerCount(t.first));
+          
           fprintf(stderr,
                   "%s ... thread %d: (%" PRIu64 ",%" PRIu64
                   ") ops and "
