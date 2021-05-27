@@ -16,6 +16,6 @@ Make sure you have everything installed to run dbbench properly (GFLAGS, gcc mak
 Python 3.6+ with matplotlib needs to be installed
 
 ## Running
-Run run.sh with the command ./run.sh from the terminal within the CompactionAnalysis directory. It will run the command used the get the results in this experiment. Note that the tests were made on a 3.4 Ghz 6 cores CPU and can be very different on other computer. The main point the retain is the difference between leveled and tiered compaction policies on the 4 different workload tested. The advantage and inconvinience of both policies should remain the same on different computers that as a decent amount of ram.
+Run run.sh with the command ./run.sh from the terminal within the CompactionAnalysis directory. It will run the command used the get the results in this experiment. Note that the tests were made on a 3.4 Ghz 6 cores CPU and can be very different on other computer. The main point the retain is the difference between leveled and tiered compaction policies on the 4 different workloads tested. The advantage and inconvenience of both policies should remain the same on different computers that as a decent amount of ram.
 
 The run.sh file might not work on a Windows OS, I recommand getting a Unix emulator to run it.
