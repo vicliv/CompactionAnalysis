@@ -156,16 +156,34 @@ def plotCompactionWritten(filename1, filename2):
 
 
 def main():
-    # plotOperations("analysis/dbbenchResults/special/ReadHeavyLeveledReport.csv", 'r')
-    # plotOperations("analysis/dbbenchResults/special/ReadHeavyTieredReport.csv", 'b')
-    # plt.clf()
-    plotOperations("analysis/dbbenchResults/special/WriteHeavyLeveledReport.csv", 'r')
-    plotOperations("analysis/dbbenchResults/special/WriteHeavyTieredReport.csv", 'b')
+    plotOperations("analysis/dbbenchResults/final/ReadHeavyLeveledReport.csv", 'r')
+    plotOperations("analysis/dbbenchResults/final/ReadHeavyTieredReport.csv", 'b')
+    plt.clf()
+    plotOperations("analysis/dbbenchResults/final/WriteHeavyLeveledReport.csv", 'r')
+    plotOperations("analysis/dbbenchResults/final/WriteHeavyTieredReport.csv", 'b')
+    plt.clf()
+    plotOperations("analysis/dbbenchResults/final/ZipfianWriteHeavyLeveledReport.csv", 'r')
+    plotOperations("analysis/dbbenchResults/final/ZipfianWriteHeavyTieredReport.csv", 'b')
+    plt.clf()
+    plotOperations("analysis/dbbenchResults/final/ZipfianReadHeavyLeveledReport.csv", 'r')
+    plotOperations("analysis/dbbenchResults/final/ZipfianReadHeavyTieredReport.csv", 'b')
     plt.clf()
 
-    plotWrite99("analysis/dbbenchResults/special/IntervalWriteHeavyLeveled.txt", "analysis/dbbenchResults/special/IntervalWriteHeavyTiered.txt")
-    plotRead99("analysis/dbbenchResults/special/IntervalWriteHeavyLeveled.txt", "analysis/dbbenchResults/special/IntervalWriteHeavyTiered.txt")
-    plotCompactionWritten("analysis/dbbenchResults/special/IntervalWriteHeavyLeveled.txt", "analysis/dbbenchResults/special/IntervalWriteHeavyTiered.txt")
+    plotWrite99("analysis/dbbenchResults/final/IntervalWriteHeavyLeveled.txt", "analysis/dbbenchResults/final/IntervalWriteHeavyTiered.txt")
+    plotRead99("analysis/dbbenchResults/final/IntervalWriteHeavyLeveled.txt", "analysis/dbbenchResults/final/IntervalWriteHeavyTiered.txt")
+    plotCompactionWritten("analysis/dbbenchResults/final/IntervalWriteHeavyLeveled.txt", "analysis/dbbenchResults/final/IntervalWriteHeavyTiered.txt")
+
+    plotWrite99("analysis/dbbenchResults/final/IntervalWriteReadLeveled.txt", "analysis/dbbenchResults/final/IntervalReadHeavyTiered.txt")
+    plotRead99("analysis/dbbenchResults/final/IntervalWriteReadLeveled.txt", "analysis/dbbenchResults/final/IntervalReadHeavyTiered.txt")
+    plotCompactionWritten("analysis/dbbenchResults/final/IntervalReadHeavyLeveled.txt", "analysis/dbbenchResults/final/IntervalReadHeavyTiered.txt")
+
+    plotWrite99("analysis/dbbenchResults/final/IntervalZipfianWriteHeavyLeveled.txt", "analysis/dbbenchResults/final/IntervalZipfianWriteHeavyTiered.txt")
+    plotRead99("analysis/dbbenchResults/final/IntervalZipfianWriteHeavyLeveled.txt", "analysis/dbbenchResults/final/IntervalZipfianWriteHeavyTiered.txt")
+    plotCompactionWritten("analysis/dbbenchResults/final/IntervalZipfianWriteHeavyLeveled.txt", "analysis/dbbenchResults/final/IntervalZipfianWriteHeavyTiered.txt")
+
+    plotWrite99("analysis/dbbenchResults/final/IntervaZipfianReadHeavyLeveled.txt", "analysis/dbbenchResults/final/IntervalZipfianReadHeavyTiered.txt")
+    plotRead99("analysis/dbbenchResults/final/IntervalZipfianReadHeavyLeveled.txt", "analysis/dbbenchResults/final/IntervalZipfianReadHeavyTiered.txt")
+    plotCompactionWritten("analysis/dbbenchResults/final/IntervalZipfianReadHeavyLeveled.txt", "analysis/dbbenchResults/final/IntervalZipfianReadHeavyTiered.txt")
 
 
 

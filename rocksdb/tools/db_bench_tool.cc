@@ -91,6 +91,8 @@
 using GFLAGS_NAMESPACE::ParseCommandLineFlags;
 using GFLAGS_NAMESPACE::RegisterFlagValidator;
 using GFLAGS_NAMESPACE::SetUsageMessage;
+const int64_t zipf_sum_size = 100000;
+std::vector<double> sum_probs(100001);
 
 DEFINE_string(
     benchmarks,
@@ -670,6 +672,8 @@ DEFINE_bool(use_fsync, false, "If true, issue fsync instead of fdatasync");
 
 DEFINE_bool(disable_wal, false, "If true, do not write WAL for write.");
 
+DEFINE_bool(zipfian, false, "Have a zipfian distribution or not");
+
 DEFINE_string(wal_dir, "", "If not empty, use the given dir for WAL");
 
 DEFINE_string(truth_db, "/dev/shm/truth_db/dbbench",
@@ -727,6 +731,7 @@ static bool ValidateInt32Percent(const char* flagname, int32_t value) {
   }
   return true;
 }
+
 DEFINE_int32(readwritepercent, 90, "Ratio of reads to reads/writes (expressed"
              " as percentage) for the ReadRandomWriteRandom workload. The "
              "default value 90 means 90% operations out of all reads and writes"
@@ -6478,6 +6483,61 @@ class Benchmark {
     thread->stats.AddMessage(msg);
   }
 
+
+// Zipfian distribution is generated based on a pre-calculated array.
+// It should be used before start the stress test.
+// First, the probability distribution function (PDF) of this Zipfian follows
+// power low. P(x) = 1/(x^alpha).
+// So we calculate the PDF when x is from 0 to zipf_sum_size in first for loop
+// and add the PDF value togetger as c. So we get the total probability in c.
+// Next, we calculate inverse CDF of Zipfian and store the value of each in
+// an array (sum_probs). The rank is from 0 to zipf_sum_size. For example, for
+// integer k, its Zipfian CDF value is sum_probs[k].
+// Third, when we need to get an integer whose probability follows Zipfian
+// distribution, we use a rand_seed [0,1] which follows uniform distribution
+// as a seed and search it in the sum_probs via binary search. When we find
+// the closest sum_probs[i] of rand_seed, i is the integer that in
+// [0, zipf_sum_size] following Zipfian distribution with parameter alpha.
+// Finally, we can scale i to [0, max_key] scale.
+// In order to avoid that hot keys are close to each other and skew towards 0,
+// we use Rando64 to shuffle it.
+void InitializeHotKeyGenerator(double alpha) {
+  double c = 0;
+  for (int64_t i = 1; i <= zipf_sum_size; i++) {
+    c = c + (1.0 / std::pow(static_cast<double>(i), alpha));
+  }
+  c = 1.0 / c;
+
+  sum_probs[0] = 0;
+  for (int64_t i = 1; i <= zipf_sum_size; i++) {
+    sum_probs[i] =
+        sum_probs[i - 1] + c / std::pow(static_cast<double>(i), alpha);
+  }
+}
+
+// Generate one key that follows the Zipfian distribution. The skewness
+// is decided by the parameter alpha. Input is the rand_seed [0,1] and
+// the max of the key to be generated. If we directly return tmp_zipf_seed,
+// the closer to 0, the higher probability will be. To randomly distribute
+// the hot keys in [0, max_key], we use Random64 to shuffle it.
+int64_t GetOneHotKeyID(double rand_seed, int64_t max_key) {
+  int64_t low = 1, mid, high = zipf_sum_size, zipf = 0;
+  while (low <= high) {
+    mid = (low + high) / 2;
+    if (sum_probs[mid] >= rand_seed && sum_probs[mid - 1] < rand_seed) {
+      zipf = mid;
+      break;
+    } else if (sum_probs[mid] >= rand_seed) {
+      high = mid - 1;
+    } else {
+      low = mid + 1;
+    }
+  }
+  int64_t tmp_zipf_seed = zipf * max_key / zipf_sum_size;
+  Random64 rand_local(tmp_zipf_seed);
+  return rand_local.Next() % max_key;
+}
+
   // This is different from ReadWhileWriting because it does not use
   // an extra thread.
   void ReadRandomWriteRandom(ThreadState* thread) {
@@ -6490,6 +6550,7 @@ class Benchmark {
     int64_t reads_done = 0;
     int64_t writes_done = 0;
     Duration duration(FLAGS_duration, readwrites_);
+    InitializeHotKeyGenerator(0.99);
 
     std::unique_ptr<const char[]> key_guard;
     Slice key = AllocateKey(&key_guard);
@@ -6498,11 +6559,21 @@ class Benchmark {
     if (user_timestamp_size_ > 0) {
       ts_guard.reset(new char[user_timestamp_size_]);
     }
-
+    FILE* f = fopen("analysis/keys.txt", "w");
     // the number of iterations is the larger of read_ or write_
     while (!duration.Done(1)) {
       DB* db = SelectDB(thread);
-      GenerateKeyFromInt(thread->rand.Next() % FLAGS_num, FLAGS_num, &key);
+      int64_t keyValue;
+      double seed;
+      if (FLAGS_zipfian) {
+        seed = static_cast<double>((thread->rand.Next() % 1000))/1000;  // want a random seed between 0 and 1
+        keyValue = GetOneHotKeyID(seed, FLAGS_num);
+      } else {
+        keyValue = thread->rand.Next() % FLAGS_num;
+      }
+      
+      fprintf(f, "%" PRIu64 "\n", keyValue);
+      GenerateKeyFromInt(keyValue, FLAGS_num, &key);
       if (get_weight == 0 && put_weight == 0) {
         // one batch completed, reinitialize for next batch
         get_weight = FLAGS_readwritepercent;
@@ -6545,6 +6616,7 @@ class Benchmark {
         thread->stats.FinishedOps(nullptr, db, 1, kWrite);
       }
     }
+    fclose(f);
     char msg[100];
     snprintf(msg, sizeof(msg), "( reads:%" PRIu64 " writes:%" PRIu64 \
              " total:%" PRIu64 " found:%" PRIu64 ")",
