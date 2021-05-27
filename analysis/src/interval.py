@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import dbbenchParser as parser
 
 duration = 1200
+res = 1000
 
 def plotOperations(filename, color):
     f = open(filename, 'r')
@@ -22,7 +23,7 @@ def plotOperations(filename, color):
         x.append(int(data[0]))
         y.append(int(data[1].split('\n')[0]))
     
-    plt.plot(x,y, color = color)
+    plt.plot(x,y, color = color,  linewidth=1)
     title = "Number of operations per timed intervals\n of a " + name + " compaction test"
     plt.title(title)
 
@@ -30,7 +31,7 @@ def plotOperations(filename, color):
     plt.ylabel(ylabel)
 
     outputFilename = "analysis/plots/long/intervals/" + name + ".png"
-    plt.savefig(outputFilename)
+    plt.savefig(outputFilename, dpi= res)
 
 def plotWrite99(filename1, filename2):
     name = filename1.split('.')[0]
@@ -48,7 +49,7 @@ def plotWrite99(filename1, filename2):
         x.append(k+mult)
         k += mult
 
-    plt.plot(x, y, color= 'b', label='Leveled')
+    plt.plot(x, y, color= 'b', label='Leveled',  linewidth=1)
 
     f = open(filename2, 'r')
     lines = f.readlines()
@@ -63,13 +64,13 @@ def plotWrite99(filename1, filename2):
     xlabel = 'Time in seconds (s)'
     ylabel = '99 percentile time during interval'
 
-    plt.plot(x, y, color ='r', label = 'tiered')
+    plt.plot(x, y, color ='r', label = 'tiered',  linewidth=1)
     plt.legend()
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
 
     outputFilename = "analysis/plots/99Write" + name + ".png"
-    plt.savefig(outputFilename)
+    plt.savefig(outputFilename, dpi= res)
     plt.clf()
 
 def plotRead99(filename1, filename2):
@@ -88,7 +89,7 @@ def plotRead99(filename1, filename2):
         x.append(k+mult)
         k += mult
 
-    plt.plot(x, y, color= 'b', label='Leveled')
+    plt.plot(x, y, color= 'b', label='Leveled', linewidth=1)
 
     f = open(filename2, 'r')
     lines = f.readlines()
@@ -104,13 +105,13 @@ def plotRead99(filename1, filename2):
     xlabel = 'Time in seconds (s)'
     ylabel = '99 percentile time during interval'
 
-    plt.plot(x, y, color ='r', label = 'tiered')
+    plt.plot(x, y, color ='r', label = 'tiered',  linewidth=1)
     plt.legend()
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
 
     outputFilename = "analysis/plots/99Read" + name + ".png"
-    plt.savefig(outputFilename)
+    plt.savefig(outputFilename, dpi= res)
     plt.clf()
 
 def plotCompactionWritten(filename1, filename2):
@@ -129,7 +130,7 @@ def plotCompactionWritten(filename1, filename2):
         x.append(k+mult)
         k += mult
 
-    plt.plot(x, y, color= 'b', label='Leveled')
+    plt.plot(x, y, color= 'b', label='Leveled',  linewidth=1)
 
     f = open(filename2, 'r')
     lines = f.readlines()
@@ -145,13 +146,13 @@ def plotCompactionWritten(filename1, filename2):
     xlabel = 'Time in seconds (s)'
     ylabel = 'Number of megabytes written in timed interval'
 
-    plt.plot(x, y, color ='r', label = 'tiered')
+    plt.plot(x, y, color ='r', label = 'tiered',  linewidth=1)
     plt.legend()
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
 
     outputFilename = "analysis/plots/CompactionWritten" + name + ".png"
-    plt.savefig(outputFilename)
+    plt.savefig(outputFilename, dpi= res)
     plt.clf()
 
 

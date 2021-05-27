@@ -99,10 +99,10 @@ def getCompactionWrite(lines):
     y = []
     for i in range(0, len(pos)):
         x.append(int(lines[pos[i]].split(':')[1])/(1024*1024))
-    y.append(x[0])
-    for i in range(1, len(x)):
-        y.append(x[i]-x[i-1])
-    return y
+    # y.append(x[0])
+    # for i in range(1, len(x)):
+    #     y.append(x[i]-x[i-1])
+    return x
 
 def findCompactionWrite(lines):
     pos = []
