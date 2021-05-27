@@ -173,15 +173,15 @@ def main():
     plotRead99("analysis/dbbenchResults/final/IntervalWriteHeavyLeveled.txt", "analysis/dbbenchResults/final/IntervalWriteHeavyTiered.txt")
     plotCompactionWritten("analysis/dbbenchResults/final/IntervalWriteHeavyLeveled.txt", "analysis/dbbenchResults/final/IntervalWriteHeavyTiered.txt")
 
-    plotWrite99("analysis/dbbenchResults/final/IntervalWriteReadLeveled.txt", "analysis/dbbenchResults/final/IntervalReadHeavyTiered.txt")
-    plotRead99("analysis/dbbenchResults/final/IntervalWriteReadLeveled.txt", "analysis/dbbenchResults/final/IntervalReadHeavyTiered.txt")
+    plotWrite99("analysis/dbbenchResults/final/IntervalReadHeavyLeveled.txt", "analysis/dbbenchResults/final/IntervalReadHeavyTiered.txt")
+    plotRead99("analysis/dbbenchResults/final/IntervalReadHeavyLeveled.txt", "analysis/dbbenchResults/final/IntervalReadHeavyTiered.txt")
     plotCompactionWritten("analysis/dbbenchResults/final/IntervalReadHeavyLeveled.txt", "analysis/dbbenchResults/final/IntervalReadHeavyTiered.txt")
 
     plotWrite99("analysis/dbbenchResults/final/IntervalZipfianWriteHeavyLeveled.txt", "analysis/dbbenchResults/final/IntervalZipfianWriteHeavyTiered.txt")
     plotRead99("analysis/dbbenchResults/final/IntervalZipfianWriteHeavyLeveled.txt", "analysis/dbbenchResults/final/IntervalZipfianWriteHeavyTiered.txt")
     plotCompactionWritten("analysis/dbbenchResults/final/IntervalZipfianWriteHeavyLeveled.txt", "analysis/dbbenchResults/final/IntervalZipfianWriteHeavyTiered.txt")
 
-    plotWrite99("analysis/dbbenchResults/final/IntervaZipfianReadHeavyLeveled.txt", "analysis/dbbenchResults/final/IntervalZipfianReadHeavyTiered.txt")
+    plotWrite99("analysis/dbbenchResults/final/IntervalZipfianReadHeavyLeveled.txt", "analysis/dbbenchResults/final/IntervalZipfianReadHeavyTiered.txt")
     plotRead99("analysis/dbbenchResults/final/IntervalZipfianReadHeavyLeveled.txt", "analysis/dbbenchResults/final/IntervalZipfianReadHeavyTiered.txt")
     plotCompactionWritten("analysis/dbbenchResults/final/IntervalZipfianReadHeavyLeveled.txt", "analysis/dbbenchResults/final/IntervalZipfianReadHeavyTiered.txt")
 

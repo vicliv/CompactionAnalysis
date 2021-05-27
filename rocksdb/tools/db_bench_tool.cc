@@ -6566,7 +6566,7 @@ int64_t GetOneHotKeyID(double rand_seed, int64_t max_key) {
       int64_t keyValue;
       double seed;
       if (FLAGS_zipfian) {
-        seed = static_cast<double>((thread->rand.Next() % 1000))/1000;  // want a random seed between 0 and 1
+        seed = static_cast<double>((thread->rand.Next() % FLAGS_num))/FLAGS_num;  // want a random seed between 0 and 1
         keyValue = GetOneHotKeyID(seed, FLAGS_num);
       } else {
         keyValue = thread->rand.Next() % FLAGS_num;
