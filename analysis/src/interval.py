@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import dbbenchParser as parser
 
-duration = 36
+duration = 1200
 
 def plotOperations(filename, color):
     f = open(filename, 'r')
