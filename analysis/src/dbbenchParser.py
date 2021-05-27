@@ -74,8 +74,50 @@ def parseHistogram(line, lines):
 
 def findHistogram(lines):
     pos = []
-    k = 0
     for i in range(0, len(lines)):
         if lines[i][0::8] == '-------':
             pos.append(i)
     return pos
+
+def getRead99(lines):
+    pos = findReadHistogram(lines)
+    x = []
+    for i in range(0, len(pos)):
+        x.append(float(lines[pos[i]-1].split(':')[4].split('P')[0]))
+    return x
+
+def getWrite99(lines):
+    pos = findWriteHistogram(lines)
+    x = []
+    for i in range(0, len(pos)):
+        x.append(float(lines[pos[i]+3].split(':')[4].split('P')[0]))
+    return x
+
+def getCompactionWrite(lines):
+    pos = findCompactionWrite(lines)
+    x = []
+    for i in range(0, len(pos)):
+        x.append(int(lines[pos[i]].split(':')[1])/(1024*1024))
+    return x
+
+def findCompactionWrite(lines):
+    pos = []
+    for i in range(0, len(lines)):
+        if "rocksdb.compact.write.bytes" in lines[i]:
+            pos.append(i)
+    return pos
+
+def findReadHistogram(lines):
+    pos = []
+    for i in range(0, len(lines)):
+        if lines[i] == 'Microseconds per read:\n':
+            pos.append(i)
+    return pos
+
+def findWriteHistogram(lines):
+    pos = []
+    for i in range(0, len(lines)):
+        if lines[i] == 'Microseconds per write:\n':
+            pos.append(i)
+    return pos
+    
