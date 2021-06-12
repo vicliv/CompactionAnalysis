@@ -83,7 +83,7 @@ def getRead99(lines):
     pos = findReadHistogram(lines)
     x = []
     for i in range(0, len(pos)):
-        x.append(float(lines[pos[i]-1].split(':')[4].split('P')[0]))
+        x.append(float(lines[pos[i]+3].split(':')[4].split('P')[0]))
     return x
 
 def getWrite99(lines):
