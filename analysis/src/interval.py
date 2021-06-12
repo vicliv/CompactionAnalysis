@@ -1,10 +1,11 @@
 import matplotlib.pyplot as plt
 import dbbenchParser as parser
 
-duration = 1200
+duration = 3600
 res = 1000
 
-def plotOperations(filename, color):
+# Method to plot the number of operations using a time interval file
+def plotOperations(filename, color, leg):
     f = open(filename, 'r')
     lines = f.readlines()
     f.close()
@@ -23,16 +24,16 @@ def plotOperations(filename, color):
         x.append(int(data[0]))
         y.append(int(data[1].split('\n')[0]))
     
-    plt.plot(x,y, color = color,  linewidth=1)
-    title = "Number of operations per timed intervals\n of a " + name + " compaction test"
-    plt.title(title)
+    plt.plot(x,y, color = color,  linewidth=1, label=leg)
+    plt.legend()
 
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
 
-    outputFilename = "analysis/plots/long/intervals/" + name + ".png"
+    outputFilename = "analysis/plots/Operations" + name + ".png"
     plt.savefig(outputFilename, dpi= res)
 
+# Method to plot the write 99th percentile per interval of a run from the ouput file
 def plotWrite99(filename1, filename2):
     name = filename1.split('.')[0]
     name = name.split('/')[3]
@@ -73,6 +74,7 @@ def plotWrite99(filename1, filename2):
     plt.savefig(outputFilename, dpi= res)
     plt.clf()
 
+# Method to plot the read 99th percentile per interval of a run from the ouput file
 def plotRead99(filename1, filename2):
     name = filename1.split('.')[0]
     name = name.split('/')[3]
@@ -114,6 +116,7 @@ def plotRead99(filename1, filename2):
     plt.savefig(outputFilename, dpi= res)
     plt.clf()
 
+# Method to plot the number of bytes compacted per interval of a run from the ouput file
 def plotCompactionWritten(filename1, filename2):
     name = filename1.split('.')[0]
     name = name.split('/')[3]
@@ -157,17 +160,17 @@ def plotCompactionWritten(filename1, filename2):
 
 
 def main():
-    plotOperations("analysis/dbbenchResults/final/ReadHeavyLeveledReport.csv", 'r')
-    plotOperations("analysis/dbbenchResults/final/ReadHeavyTieredReport.csv", 'b')
+    plotOperations("analysis/dbbenchResults/final/ReadHeavyLeveledReport.csv", 'r', 'Leveled')
+    plotOperations("analysis/dbbenchResults/final/ReadHeavyTieredReport.csv", 'b', 'Tiered')
     plt.clf()
-    plotOperations("analysis/dbbenchResults/final/WriteHeavyLeveledReport.csv", 'r')
-    plotOperations("analysis/dbbenchResults/final/WriteHeavyTieredReport.csv", 'b')
+    plotOperations("analysis/dbbenchResults/final/WriteHeavyLeveledReport.csv", 'r', 'Leveled')
+    plotOperations("analysis/dbbenchResults/final/WriteHeavyTieredReport.csv", 'b', 'Tiered')
     plt.clf()
-    plotOperations("analysis/dbbenchResults/final/ZipfianWriteHeavyLeveledReport.csv", 'r')
-    plotOperations("analysis/dbbenchResults/final/ZipfianWriteHeavyTieredReport.csv", 'b')
+    plotOperations("analysis/dbbenchResults/final/ZipfianWriteHeavyLeveledReport.csv", 'r', 'Leveled')
+    plotOperations("analysis/dbbenchResults/final/ZipfianWriteHeavyTieredReport.csv", 'b', 'Tiered')
     plt.clf()
-    plotOperations("analysis/dbbenchResults/final/ZipfianReadHeavyLeveledReport.csv", 'r')
-    plotOperations("analysis/dbbenchResults/final/ZipfianReadHeavyTieredReport.csv", 'b')
+    plotOperations("analysis/dbbenchResults/final/ZipfianReadHeavyLeveledReport.csv", 'r', 'Leveled')
+    plotOperations("analysis/dbbenchResults/final/ZipfianReadHeavyTieredReport.csv", 'b', 'Tiered')
     plt.clf()
 
     plotWrite99("analysis/dbbenchResults/final/IntervalWriteHeavyLeveled.txt", "analysis/dbbenchResults/final/IntervalWriteHeavyTiered.txt")
@@ -185,10 +188,6 @@ def main():
     plotWrite99("analysis/dbbenchResults/final/IntervalZipfianReadHeavyLeveled.txt", "analysis/dbbenchResults/final/IntervalZipfianReadHeavyTiered.txt")
     plotRead99("analysis/dbbenchResults/final/IntervalZipfianReadHeavyLeveled.txt", "analysis/dbbenchResults/final/IntervalZipfianReadHeavyTiered.txt")
     plotCompactionWritten("analysis/dbbenchResults/final/IntervalZipfianReadHeavyLeveled.txt", "analysis/dbbenchResults/final/IntervalZipfianReadHeavyTiered.txt")
-
-
-
-
 
 if __name__ == "__main__":
 	main()
