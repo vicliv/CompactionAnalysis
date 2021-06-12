@@ -63,9 +63,9 @@ def plotWrite99(filename1, filename2):
         x.append(k+mult)
         k += mult
     xlabel = 'Time in seconds (s)'
-    ylabel = '99 percentile time during interval'
+    ylabel = '99 percentile time during interval (ms)'
 
-    plt.plot(x, y, color ='r', label = 'tiered',  linewidth=1)
+    plt.plot(x, y, color ='r', label = 'Tiered',  linewidth=1)
     plt.legend()
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
@@ -105,9 +105,9 @@ def plotRead99(filename1, filename2):
         k += mult
 
     xlabel = 'Time in seconds (s)'
-    ylabel = '99 percentile time during interval'
+    ylabel = '99 percentile time during interval (ms)'
 
-    plt.plot(x, y, color ='r', label = 'tiered',  linewidth=1)
+    plt.plot(x, y, color ='r', label = 'Tiered',  linewidth=1)
     plt.legend()
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
@@ -147,9 +147,9 @@ def plotCompactionWritten(filename1, filename2):
         k += mult
 
     xlabel = 'Time in seconds (s)'
-    ylabel = 'Number of megabytes written in timed interval'
+    ylabel = 'Number of megabytes written in timed interval (ms)'
 
-    plt.plot(x, y, color ='r', label = 'tiered',  linewidth=1)
+    plt.plot(x, y, color ='r', label = 'Tiered',  linewidth=1)
     plt.legend()
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
