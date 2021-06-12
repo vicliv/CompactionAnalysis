@@ -67,6 +67,7 @@ def plotWrite99(filename1, filename2):
 
     plt.plot(x, y, color ='r', label = 'Tiered',  linewidth=1)
     plt.legend()
+    plt.yscale('log')
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
 
@@ -109,6 +110,7 @@ def plotRead99(filename1, filename2):
 
     plt.plot(x, y, color ='r', label = 'Tiered',  linewidth=1)
     plt.legend()
+    plt.yscale('log')
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
 
