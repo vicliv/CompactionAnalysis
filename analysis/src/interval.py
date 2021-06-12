@@ -84,7 +84,7 @@ def plotRead99(filename1, filename2):
     lines = f.readlines()
     f.close()
     x = []
-    y = parser.getWrite99(lines)
+    y = parser.getRead99(lines)
     mult = duration/len(y)
     k = 0
     for i in range(0, len(y)):
