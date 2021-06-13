@@ -63,7 +63,7 @@ def plotWrite99(filename1, filename2):
         x.append(k+mult)
         k += mult
     xlabel = 'Time in seconds (s)'
-    ylabel = '99th write percentile time during interval (ms)'
+    ylabel = '99th write percentile time during interval (µs)'
 
     plt.plot(x, y, color ='r', label = 'Tiered',  linewidth=1)
     plt.legend()
@@ -98,7 +98,7 @@ def plotRead99(filename1, filename2):
     lines = f.readlines()
     f.close()
     x = []
-    y = parser.getWrite99(lines)
+    y = parser.getRead99(lines)
     mult = duration/len(y)
     k = 0
     for i in range(0, len(y)):
@@ -106,7 +106,7 @@ def plotRead99(filename1, filename2):
         k += mult
 
     xlabel = 'Time in seconds (s)'
-    ylabel = '99th read percentile time during interval (ms)'
+    ylabel = '99th read percentile time during interval (µs)'
 
     plt.plot(x, y, color ='r', label = 'Tiered',  linewidth=1)
     plt.legend()
