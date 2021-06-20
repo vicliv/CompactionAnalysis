@@ -162,17 +162,17 @@ def plotCompactionWritten(filename1, filename2):
 
 
 def main():
-    plotOperations("analysis/dbbenchResults/final/ReadHeavyLeveledReport.csv", 'r', 'Leveled')
-    plotOperations("analysis/dbbenchResults/final/ReadHeavyTieredReport.csv", 'b', 'Tiered')
+    plotOperations("analysis/dbbenchResults/final/ReadHeavyLeveledReport.csv", 'b', 'Leveled')
+    plotOperations("analysis/dbbenchResults/final/ReadHeavyTieredReport.csv", 'r', 'Tiered')
     plt.clf()
-    plotOperations("analysis/dbbenchResults/final/WriteHeavyLeveledReport.csv", 'r', 'Leveled')
-    plotOperations("analysis/dbbenchResults/final/WriteHeavyTieredReport.csv", 'b', 'Tiered')
+    plotOperations("analysis/dbbenchResults/final/WriteHeavyLeveledReport.csv", 'b', 'Leveled')
+    plotOperations("analysis/dbbenchResults/final/WriteHeavyTieredReport.csv", 'r', 'Tiered')
     plt.clf()
-    plotOperations("analysis/dbbenchResults/final/ZipfianWriteHeavyLeveledReport.csv", 'r', 'Leveled')
-    plotOperations("analysis/dbbenchResults/final/ZipfianWriteHeavyTieredReport.csv", 'b', 'Tiered')
+    plotOperations("analysis/dbbenchResults/final/ZipfianWriteHeavyLeveledReport.csv", 'b', 'Leveled')
+    plotOperations("analysis/dbbenchResults/final/ZipfianWriteHeavyTieredReport.csv", 'r', 'Tiered')
     plt.clf()
-    plotOperations("analysis/dbbenchResults/final/ZipfianReadHeavyLeveledReport.csv", 'r', 'Leveled')
-    plotOperations("analysis/dbbenchResults/final/ZipfianReadHeavyTieredReport.csv", 'b', 'Tiered')
+    plotOperations("analysis/dbbenchResults/final/ZipfianReadHeavyLeveledReport.csv", 'b', 'Leveled')
+    plotOperations("analysis/dbbenchResults/final/ZipfianReadHeavyTieredReport.csv", 'r', 'Tiered')
     plt.clf()
 
     plotWrite99("analysis/dbbenchResults/final/IntervalWriteHeavyLeveled.txt", "analysis/dbbenchResults/final/IntervalWriteHeavyTiered.txt")
