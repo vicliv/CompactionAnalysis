@@ -19,7 +19,7 @@ dbbench was modified to have an optional Zipfian distribution (boolean parameter
 Make sure you have everything installed to run dbbench properly (GFLAGS, gcc make, C++)
 The added statistics are for each interval:
 - Read histogram by interval
-- Write histohram by interval
+- Write histogram by interval
 - Number of written bytes during compaction per intervals
 These statistics are activated when the parameter stats_interval_seconds is used
 Each picked keys are also now printed to the file analysis/keys.txt to check the distribution. This would be useful for future work.
