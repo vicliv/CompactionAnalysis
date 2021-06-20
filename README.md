@@ -34,4 +34,4 @@ Run `run.sh` with the command ./run.sh from the terminal within the CompactionAn
 
 The run.sh file might not work on a Windows OS, I recommand getting a Unix virtual machine to run it as Ubuntu.
 
-Other test runs are in the directory `runs` that were not used directly in the final report but were use to find the best parameters.
+Other test runs are in the directory `/runs` that were not used directly in the final report but were used to find the best parameters.
