@@ -38,5 +38,6 @@ The run.sh file might not work on a Windows OS, I recommand getting a Unix virtu
 Other test runs are in the directory `/runs` that were not used directly in the final report but were used to find the best parameters.
 
 ## Plotting
-You can plot some results from the test with the python files in `/analysis/src`, I recommand reading the comments in them to figure out what they do.
+You can plot some results from the tests with the python files in `/analysis/src`, I recommend reading the comments in them to figure out what they do.
+Note that some of the functions might not work as some directory were changed and these functions were not used in the final report.
 The plots are using the results in `/analysis/src/dbbenchResults` and are outputed in `/analysis/src/plots`
