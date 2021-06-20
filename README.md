@@ -22,6 +22,7 @@ The added statistics are for each interval:
 - Write histohram by interval
 - Number of written bytes during compaction per intervals
 These statistics are activated when the parameter stats_interval_seconds is used
+Each picked keys are also now printed to the file analysis/keys.txt to check the distribution. This would be useful for future work.
 
 #### Python:
 Python 3.6+ with matplotlib needs to be installed
@@ -35,3 +36,7 @@ Run `run.sh` with the command ./run.sh from the terminal within the CompactionAn
 The run.sh file might not work on a Windows OS, I recommand getting a Unix virtual machine to run it as Ubuntu.
 
 Other test runs are in the directory `/runs` that were not used directly in the final report but were used to find the best parameters.
+
+## Plotting
+You can plot some results from the test with the python files in `/analysis/src`, I recommand reading the comments in them to figure out what they do.
+The plots are using the results in `/analysis/src/dbbenchResults` and are outputed in `/analysis/src/plots`
