@@ -3,10 +3,14 @@ import numpy as np
 import dbbenchParser as parser
 import copy
 
+# In this files, there are the functions to plot an histogram from db_bench
+# Unused in the final report since it does not add any value
+
 colors = {0 : 'b', 1 : 'r', 2 : 'g', 3 : 'c', 4: 'm', 5 : 'y', 6 : 'k', 7: 'w'}
 xlabel = "Time distribution in microseconds per operation"
 ylabel = "Log of number of operations per distribution"
 
+# Plots the histogram by compaction type, with reads writes and all each levels stats
 def plotType(filename):
     f = open(filename, 'r')
     lines = f.readlines()
@@ -27,10 +31,11 @@ def plotType(filename):
     plt.clf()
 
     plotLevels(pos, lines, name)
-    outputFilename = "analysis/plots/" + name + "Levelspng"
+    outputFilename = "analysis/plots/" + name + "Levels.png"
     plt.savefig(outputFilename)
     plt.clf()
 
+# Plots the histogram for both workload on the same plot
 def plotWorkload(filename1, filename2, workload):
     f1 = open(filename1, 'r')
     lines1 = f1.readlines()
@@ -55,6 +60,7 @@ def plotWorkload(filename1, filename2, workload):
     plt.savefig(outputFilename)
     plt.clf()
 
+# Helper method to plot each levels histogram
 def plotLevels(pos, lines, name):
     for i in range(2, len(pos)):
         data = parser.parseHistogram(pos[i], lines)
@@ -73,6 +79,7 @@ def plotLevels(pos, lines, name):
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
 
+# Helper method to plot read histogram
 def plotRead(pos, lines, name, color, l):
     data = parser.parseHistogram(pos[0], lines)
 
@@ -90,6 +97,7 @@ def plotRead(pos, lines, name, color, l):
     if (l != ""):
         plt.legend()
 
+# Helper method to plot write histogram
 def plotWrite(pos, lines, name, color, l):
     data = parser.parseHistogram(pos[1], lines)
 
@@ -107,8 +115,8 @@ def plotWrite(pos, lines, name, color, l):
         plt.legend()
 
 def main():
-    plotWorkload("analysis/dbbenchResults/long/ReadHeavyLeveled.txt", "analysis/dbbenchResults/long/ReadHeavyTiered.txt", "ReadHeavy")
-    plotWorkload("analysis/dbbenchResults/long/WriteHeavyLeveled13.txt", "analysis/dbbenchResults/long/WriteHeavyTiered13.txt", "WriteHeavy")
+    plotWorkload("analysis/dbbenchResults/final/ReadHeavyLeveled.txt", "analysis/dbbenchResults/final/ReadHeavyTiered.txt", "ReadHeavy")
+    plotWorkload("analysis/dbbenchResults/final/WriteHeavyLeveled.txt", "analysis/dbbenchResults/final/WriteHeavyTiered.txt", "WriteHeavy")
 
 
 if __name__ == "__main__":

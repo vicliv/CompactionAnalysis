@@ -1,5 +1,9 @@
 import matplotlib.pyplot as plt
 
+# File to run to verify the key distribution of the database given each selected key
+
+# First sorts the keys in decreasing order of apperances
+# Then plot them on a 100% scale.
 def check(filename):
     f = open(filename, 'r')
     lines = f.readlines()

@@ -1,8 +1,10 @@
 import matplotlib.pyplot as plt
 import dbbenchParser as parser
 
-duration = 3600
-res = 1000
+# Methods to plot useful values in a report
+
+duration = 3600 # time in seconds of the runs (TO CHANGE IF NEEDED)
+res = 1000 # resultion of the graph
 
 # Method to plot the number of operations using a time interval file
 def plotOperations(filename, color, leg):

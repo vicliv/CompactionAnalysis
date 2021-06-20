@@ -1,3 +1,7 @@
+# Helper methods for the plotting python files, 
+# The parsers only parse files created by RocksDB db_bench
+
+# parse the stats of a histogram, never actually used in testing
 def parseStats(filename):
     f = open(filename, 'r')
     lines = f.readlines()
@@ -22,7 +26,7 @@ def parseStats(filename):
             values[keyValues[0]] = keyValues[1].replace('\n', '')
     f.close()
     
-    return histo(23)
+    return values
 
 # parse the time values of read or write given
 # if isRead = True we parse for read, otherwise for write
@@ -45,7 +49,7 @@ def parseHistoStats(lines, line):
     return stats
 
 
-
+# Parse the value of an histogram to plot it
 def parseHistogram(line, lines):
     line += 1
     data = []
@@ -72,6 +76,7 @@ def parseHistogram(line, lines):
     return [data, values, percents]
 
 
+# Given lines of string, returns the position of histograms
 def findHistogram(lines):
     pos = []
     for i in range(0, len(lines)):
@@ -79,6 +84,7 @@ def findHistogram(lines):
             pos.append(i)
     return pos
 
+# Given string lines, return all the 99th percentile reading times from histograms
 def getRead99(lines):
     pos = findReadHistogram(lines)
     x = []
@@ -86,6 +92,7 @@ def getRead99(lines):
         x.append(float(lines[pos[i]+3].split(':')[4].split('P')[0]))
     return x
 
+# Given string lines, return all the 99th percentile writing times from histograms
 def getWrite99(lines):
     pos = findWriteHistogram(lines)
     x = []
@@ -93,6 +100,7 @@ def getWrite99(lines):
         x.append(float(lines[pos[i]+3].split(':')[4].split('P')[0]))
     return x
 
+# Given string lines, return the number of written bytes during compaction each second
 def getCompactionWrite(lines):
     pos = findCompactionWrite(lines)
     x = []
@@ -104,6 +112,7 @@ def getCompactionWrite(lines):
     #     y.append(x[i]-x[i-1])
     return x
 
+# Helper method to find the lines in a file with the number of bytes written during compaction
 def findCompactionWrite(lines):
     pos = []
     for i in range(0, len(lines)):
@@ -111,6 +120,7 @@ def findCompactionWrite(lines):
             pos.append(i)
     return pos
 
+# Helper method to find the read histrograms
 def findReadHistogram(lines):
     pos = []
     for i in range(0, len(lines)):
@@ -118,6 +128,7 @@ def findReadHistogram(lines):
             pos.append(i)
     return pos
 
+# Helper method to find the write histrograms
 def findWriteHistogram(lines):
     pos = []
     for i in range(0, len(lines)):
