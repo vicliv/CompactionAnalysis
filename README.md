@@ -2,10 +2,10 @@
 Research project to find efficient compaction policies on a RocksDB database on different workload profiles.
 
 Leveled and Tiered compaction policies were both tested on a:
-- Write heavy workload with 50% reads and 50% writes uniformaly distributed
-- Read heavy workload with 95% reads and 5% writes uniformaly distributed
-- A Zipfian (1%, alpha = 0.99) distribution with a write heavy workload
-- A Zipfian (1%, alpha = 0.99) distribution with a write read workload
+- Write-heavy workload with 50% reads and 50% writes uniformaly distributed
+- Read-heavy workload with 95% reads and 5% writes uniformaly distributed
+- A Zipfian (1%, alpha = 0.99) distribution with a write-heavy workload
+- A Zipfian (1%, alpha = 0.99) distribution with a write-read workload
 
 
 ## Installation
