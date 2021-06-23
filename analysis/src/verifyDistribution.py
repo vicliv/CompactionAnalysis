@@ -33,9 +33,9 @@ def check(filename):
     sortedDict = dict(sorted(d.items(), key=lambda item: item[1]))
     plt.plot(x, [*sortedDict.values()])
     plt.title("Key distribution of the last benchmark test run")
+    plt.yscale("log")
     plt.xticks([0,10,20,30,40,50,60,70,80,90,95,100])
     plt.savefig("analysis/keyDistribution.png")
-    plt.yscale("log")
     
 if __name__ == "__main__":
     check("analysis/keys.txt")
